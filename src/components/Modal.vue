@@ -1,15 +1,17 @@
 <template>
   <div @click.self="$emit('forwardClick')" v-if="showModalProp" class="modal">
     <div class="modal__content">
-      <p>I am a modal</p>
+      <PersonForm />
     </div>
   </div>
 </template>
 
 <script>
+import PersonForm from "./AddPersonForm";
 export default {
-  // Just a modified way of declaring props using the prop object vue.
-  // the name of the prop is an object of itself and it has properties of the type of the value and if the value is required. Nothing too new here
+  components: {
+    PersonForm: PersonForm
+  },
   props: {
     showModalProp: {
       type: Boolean,
@@ -31,7 +33,7 @@ export default {
 }
 .modal__content {
   width: 50rem;
-  height: 30rem;
+  /* height: 30rem; */
   background-color: #fff;
   color: #333;
 }
