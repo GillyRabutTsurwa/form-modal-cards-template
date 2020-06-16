@@ -1,27 +1,38 @@
 <template>
   <div id="app">
-    <Modal v-bind:showModalProp="showModal" v-on:forwardClick="toggleModal" />
+    <Modal
+      v-bind:showModalProp="showModal"
+      v-bind:peopleArrayProp="people"
+      v-on:forwardClick="toggleModal"
+    >
+      <PersonForm v-on:addPerson="addNewPerson($event)" />
+    </Modal>
     <button @click="toggleModal">Open Modal</button>
-    <div class="main">
+    <div class="main" v-if="people.length > 0">
       <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
       <div class="card" v-for="currentPerson in people" v-bind:key="currentPerson.id">
         <div class="card__info">
           <h3>{{currentPerson.name}} - {{currentPerson.age}}</h3>
           <h5>{{currentPerson.beltColour}}</h5>
-          <button class="btn">Delete</button>
+          <!-- NEW: Kind of, if you want to access the event object (the e or evt or event in vanillajs), pass in the $event directive as an argument in your function call like below. Then access it as your first argument in your function -->
+          <!-- <button @click="deletePerson($event, currentPerson.id)" class="btn">Delete</button> -->
+          <button @click="deletePerson(currentPerson.id)" class="btn">Delete</button>
         </div>
       </div>
     </div>
+    <p v-else>Nobody</p>
   </div>
 </template>
 
 <script>
 import Modal from "./components/Modal";
+import PersonForm from "./components/AddPersonForm";
 
 export default {
   name: "App",
   components: {
-    Modal: Modal
+    Modal: Modal,
+    PersonForm: PersonForm
   },
   data() {
     return {
@@ -32,7 +43,10 @@ export default {
         { name: "Peach", beltColour: "brown", age: 35, id: 4 },
         { name: "Daisy", beltColour: "brown", age: 35, id: 5 },
         { name: "Browser", beltColour: "brown", age: 35, id: 6 },
-        { name: "Toad", beltColour: "brown", age: 35, id: 7 }
+        { name: "Toad", beltColour: "brown", age: 35, id: 8 },
+        { name: "Toad", beltColour: "brown", age: 35, id: 9 },
+        { name: "Toad", beltColour: "brown", age: 35, id: 10 },
+        { name: "Toad", beltColour: "brown", age: 35, id: 11 }
       ],
       // will be used to close the modal
       showModal: false
@@ -41,6 +55,20 @@ export default {
   methods: {
     toggleModal() {
       this.showModal = !this.showModal;
+    },
+    addNewPerson(newPersonData) {
+      console.log(newPersonData);
+      // render the new Person to the ui by appending the info to the peoples array.
+      // il y a beaucoup de moyens pour le faire.
+      this.people = [...this.people, newPersonData];
+      this.showModal = false;
+    },
+    deletePerson(id) {
+      // console.log(e);
+      console.log(id);
+      this.people = this.people.filter(
+        currentPerson => currentPerson.id !== id
+      );
     }
   }
 };
@@ -49,9 +77,6 @@ export default {
 <style>
 @import "./App.css";
 #app {
-  position: fixed;
-  top: 0;
-  left: 0;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -59,16 +84,17 @@ export default {
   color: #2c3e50;
   font-size: 1.4rem;
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
 }
 
 .main {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  /* the max is 30rem instead of 1fr. Looks way nicer. Especially for the hover effect I'll put in the card */
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 30rem));
   justify-content: center;
   gap: 2rem;
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
 }
 
 .card__info {

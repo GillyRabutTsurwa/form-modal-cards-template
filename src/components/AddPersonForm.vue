@@ -1,10 +1,17 @@
 <template>
   <div>
-    <form @submit.prevent="logSkills">
+    <form @submit.prevent="forwardPersonData">
       <label for="name">Name</label>
-      <input type="text" v-model="name" id="name" class="input__name" />
+      <input type="text" v-model="name" id="name" class="input__name" required />
       <label for="age">Age</label>
-      <input type="number" v-model="age" id="age" class="input__age" placeholder="Enter Your Age" />
+      <input
+        type="number"
+        v-model="age"
+        id="age"
+        class="input__age"
+        placeholder="Enter Your Age"
+        required
+      />
       <div class="css-stuff">
         <label>CSS Favourites</label>
         <input type="checkbox" v-model="skillsCSS" value="bootstrap" />
@@ -49,7 +56,7 @@
       </div>
 
       <p>I specialise in</p>
-      <select v-model="currentBeltColour">
+      <select v-model="currentBeltColour" required>
         <option v-for="(current, index) in beltColours" v-bind:key="index">{{current}}</option>
       </select>
       <input type="submit" value="Add Person" />
@@ -62,7 +69,7 @@ export default {
   data() {
     return {
       name: "",
-      age: 0,
+      age: null,
       skillsCSS: [],
       skillsJS: [],
       currentBeltColour: "",
@@ -80,6 +87,18 @@ export default {
       console.log(this.name, Number(this.age), this.currentBeltColour);
       console.log(this.skillsCSS);
       console.log(this.skillsJS);
+    },
+    forwardPersonData() {
+      const newPerson = {
+        name: this.name,
+        beltColour: this.currentBeltColour,
+        age: Number(this.age),
+        skillsCSS: this.skillsCSS,
+        skillsJS: this.skillsJS,
+        id: Math.random()
+      };
+      // Event emission to parent. Je m'améliore dans ce domaine-ci
+      this.$emit("addPerson", newPerson);
     }
   }
 };

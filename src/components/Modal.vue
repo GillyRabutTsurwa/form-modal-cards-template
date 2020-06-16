@@ -1,17 +1,16 @@
 <template>
   <div @click.self="$emit('forwardClick')" v-if="showModalProp" class="modal">
     <div class="modal__content">
-      <PersonForm />
+      <!-- NEWIMPORTANTNOTE: slots can also work for components, not just HTML elements. this is VERY USEFUL. Tried to initialise a component inside a declaration of another component in the App component and it did not work, like you can in Svelte. So we use slots. Very useful -->
+      <!-- The nested form has hence been deleted from here. Niceeee -->
+      <slot></slot>
     </div>
   </div>
 </template>
 
 <script>
-import PersonForm from "./AddPersonForm";
 export default {
-  components: {
-    PersonForm: PersonForm
-  },
+  components: {},
   props: {
     showModalProp: {
       type: Boolean,
