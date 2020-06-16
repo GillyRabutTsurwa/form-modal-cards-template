@@ -27,7 +27,6 @@
 <script>
 import Modal from "./components/Modal";
 import PersonForm from "./components/AddPersonForm";
-
 export default {
   name: "App",
   components: {
@@ -86,7 +85,6 @@ export default {
   width: 100%;
   /* height: 100%; */
 }
-
 .main {
   display: grid;
   /* the max is 30rem instead of 1fr. Looks way nicer. Especially for the hover effect I'll put in the card */
@@ -96,7 +94,6 @@ export default {
   width: 100%;
   /* height: 100%; */
 }
-
 .card__info {
   height: 30rem;
   box-shadow: 0 1rem 1rem 0.5rem rgba(0, 0, 0, 0.2);
