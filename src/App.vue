@@ -9,29 +9,36 @@
     </Modal>
     <button @click="toggleModal">Open Modal</button>
     <div class="main" v-if="people.length > 0">
-      <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
       <div class="card" v-for="currentPerson in people" v-bind:key="currentPerson.id">
-        <div class="card__info">
-          <h3>{{currentPerson.name}} - {{currentPerson.age}}</h3>
-          <h5>{{currentPerson.beltColour}}</h5>
-          <!-- NEW: Kind of, if you want to access the event object (the e or evt or event in vanillajs), pass in the $event directive as an argument in your function call like below. Then access it as your first argument in your function -->
-          <!-- <button @click="deletePerson($event, currentPerson.id)" class="btn">Delete</button> -->
-          <button @click="deletePerson(currentPerson.id)" class="btn">Delete</button>
-        </div>
+        <!-- NOTE: Remove all the HTML code that makes a card and put it in a child component (Card).  -->
+        <!-- NOTE: I passed down all the information needed for the card info to be rendered to the UI down to that child component as props: nameProp, ageProp, and idProp -->
+        <!-- NOTE: Lastly I am listening a click from the delete button in the child component and emitting it up here in the parent where the child component is registered. We are not passing any data with that emit. Just the event: deleteCard, which calls on the deletePerson function that deletes the card -->
+        <!-- NOTE: J'ai bien joué ici. J'en suis fier. -->
+        <Card
+          v-bind:nameProp="currentPerson.name"
+          v-bind:ageProp="currentPerson.age"
+          v-bind:beltColourProp="currentPerson.beltColour"
+          v-bind:idProp="currentPerson.id"
+          v-on:deleteCard="deletePerson(currentPerson.id)"
+        />
       </div>
     </div>
-    <p v-else>Nobody</p>
+    <p v-else style="font-size: 4em;">¯\_(ツ)_/¯</p>
+    <h3>Sucess&check;</h3>
+    <h4>Managed to do it the second time around. Niceee</h4>
   </div>
 </template>
 
 <script>
 import Modal from "./components/Modal";
 import PersonForm from "./components/AddPersonForm";
+import Card from "./components/Card";
 export default {
   name: "App",
   components: {
     Modal: Modal,
-    PersonForm: PersonForm
+    PersonForm: PersonForm,
+    Card: Card
   },
   data() {
     return {
