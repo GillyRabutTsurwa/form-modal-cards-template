@@ -29,6 +29,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  /* I need this to keep the modal on the top stack when active. For some reason that is no longer the case. Easy fix nonetheless */
+  z-index: 100;
 }
 .modal__content {
   width: 50rem;

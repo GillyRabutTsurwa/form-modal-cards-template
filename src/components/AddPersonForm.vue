@@ -12,6 +12,7 @@
         placeholder="Enter Your Age"
         required
       />
+      <!-- -------------------------------------------------------------- -->
       <div class="css-stuff">
         <label>CSS Favourites</label>
         <input type="checkbox" v-model="skillsCSS" value="bootstrap" />
@@ -20,7 +21,7 @@
         <input type="checkbox" v-model="skillsCSS" value="bulma" />
         Bulma
         <br />
-        <input type="checkbox" v-model="skillsCSS" value="full-stack" />
+        <input type="checkbox" v-model="skillsCSS" value="tailwind" />
         Tailwind CSS
         <br />
         <input type="checkbox" v-model="skillsCSS" value="materialize" />Materialize CSS
@@ -30,6 +31,7 @@
         <input type="checkbox" v-model="skillsCSS" value="semantic-ui" />Semantic UI
         <br />
       </div>
+      <!-- -------------------------------------------------------------- -->
       <div class="js-stuff">
         JS Favourites
         <input type="checkbox" v-model="skillsJS" value="angular" />

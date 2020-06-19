@@ -10,22 +10,19 @@
     <button @click="toggleModal">Open Modal</button>
     <div class="main" v-if="people.length > 0">
       <div class="card" v-for="currentPerson in people" v-bind:key="currentPerson.id">
-        <!-- NOTE: Remove all the HTML code that makes a card and put it in a child component (Card).  -->
-        <!-- NOTE: I passed down all the information needed for the card info to be rendered to the UI down to that child component as props: nameProp, ageProp, and idProp -->
-        <!-- NOTE: Lastly I am listening a click from the delete button in the child component and emitting it up here in the parent where the child component is registered. We are not passing any data with that emit. Just the event: deleteCard, which calls on the deletePerson function that deletes the card -->
-        <!-- NOTE: J'ai bien joué ici. J'en suis fier. -->
         <Card
           v-bind:nameProp="currentPerson.name"
           v-bind:ageProp="currentPerson.age"
           v-bind:beltColourProp="currentPerson.beltColour"
           v-bind:idProp="currentPerson.id"
+          v-bind:skillsCSSProp="currentPerson.skillsCSS"
+          v-bind:skillsJSProp="currentPerson.skillsJS"
           v-on:deleteCard="deletePerson(currentPerson.id)"
         />
       </div>
     </div>
     <p v-else style="font-size: 4em;">¯\_(ツ)_/¯</p>
-    <h3>Sucess&check;</h3>
-    <h4>Managed to do it the second time around. Niceee</h4>
+    <p>Come back, polish and take notes. Oh and nice use of refs on this one.</p>
   </div>
 </template>
 
@@ -55,7 +52,9 @@ export default {
         { name: "Toad", beltColour: "brown", age: 35, id: 11 }
       ],
       // will be used to close the modal
-      showModal: false
+      showModal: false,
+      //NEW:
+      skillsCSS: []
     };
   },
   methods: {
@@ -68,6 +67,8 @@ export default {
       // il y a beaucoup de moyens pour le faire.
       this.people = [...this.people, newPersonData];
       this.showModal = false;
+      // //NEW:
+      // this.skillsCSS = newPersonData.skillsCSS;
     },
     deletePerson(id) {
       // console.log(e);
@@ -92,6 +93,7 @@ export default {
   width: 100%;
   /* height: 100%; */
 }
+
 .main {
   display: grid;
   /* the max is 30rem instead of 1fr. Looks way nicer. Especially for the hover effect I'll put in the card */
@@ -101,12 +103,35 @@ export default {
   width: 100%;
   /* height: 100%; */
 }
-.card__info {
+
+.card {
+  position: relative;
   height: 30rem;
+  perspective: 170rem;
+}
+
+.card__front,
+.card__back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   box-shadow: 0 1rem 1rem 0.5rem rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  transition: all 0.5s ease;
+}
+
+.card__back {
+  transform: rotateY(180deg);
+}
+
+.card:focus .card__front {
+  transform: rotateY(-180deg);
+}
+
+.card:focus .card__back {
+  transform: rotateY(0);
 }
 </style>

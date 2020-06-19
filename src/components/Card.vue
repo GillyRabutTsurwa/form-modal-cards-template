@@ -1,10 +1,29 @@
 <template>
   <div>
-    <!-- NOTE: Moved all this code from the app component to its own child component. All the info needed to be displayed were passed down as props. Lastly I can display them as they are, and not store them in new variables, because I'm not changing them. -->
-    <div class="card__info">
-      <h3>{{nameProp}} - {{ageProp}}</h3>
-      <h5>{{beltColourProp}}</h5>
-      <button @click="emitDelete" class="btn">Delete</button>
+    <div class="card__front" ref="frontCard">
+      <div class="card__front-container">
+        <h3>{{nameProp}} - {{ageProp}}</h3>
+        <h5>{{beltColourProp}}</h5>
+        <button @click="emitDelete" class="btn">Delete</button>
+        <button @click="flipToBack" ref="flipButton">Flip</button>
+      </div>
+    </div>
+    <div class="card__back" ref="backCard">
+      <ul class="skills__list">
+        <li
+          class="skills__list--item"
+          v-for="(currentSkill, index) in skillsCSSProp"
+          v-bind:key="index"
+        >{{currentSkill}}</li>
+      </ul>
+      <ul class="skills__list">
+        <li
+          class="skills__list--item"
+          v-for="(currentSkill, index) in skillsJSProp"
+          v-bind:key="index"
+        >{{currentSkill}}</li>
+      </ul>
+      <button @click="flipToFront" ref="flipButton">Flip</button>
     </div>
   </div>
 </template>
@@ -23,12 +42,27 @@ export default {
     },
     idProp: {
       type: Number
+    },
+    skillsCSSProp: {
+      type: Array
+    },
+    skillsJSProp: {
+      type: Array
     }
   },
   methods: {
-    // NOTE: Function that will be passed up to the parent that will eventually delete a card upon the click of the button
     emitDelete() {
       this.$emit("deleteCard");
+    },
+    flipToBack() {
+      console.log(this.$refs);
+      this.$refs.frontCard.style.transform = "rotateY(-180deg)";
+      this.$refs.backCard.style.transform = "rotateY(0)";
+    },
+    flipToFront() {
+      console.log(this.$refs);
+      this.$refs.frontCard.style.transform = "rotateY(0)";
+      this.$refs.backCard.style.transform = "rotateY(180deg)";
     }
   }
 };
